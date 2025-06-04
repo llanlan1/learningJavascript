@@ -62,21 +62,40 @@
 <script>
   
 
+// Initialize audio context on first user interaction
+let audioInitialized = false;
+
+function initializeAudio() {
+  if (audioInitialized) return;
+  
+  // Try to play all audio files silently to "unlock" them
+  const audios = document.querySelectorAll('audio');
+  audios.forEach(audio => {
+    audio.volume = 0;
+    audio.play().then(() => {
+      audio.pause();
+      audio.currentTime = 0;
+      audio.volume = 1;
+    }).catch(() => {
+      // Ignore errors for now
+    });
+  });
+  
+  audioInitialized = true;
+}
+
 function playSound(e) {
+  // Initialize audio on first interaction
+  if (!audioInitialized) {
+    initializeAudio();
+  }
+
   const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
   const key = document.querySelector(`.key[data-key="${e.keyCode}"]`);
   if (!audio) return; // stop the function from running all together if there is no audio associated with the keys
  
-  // Check if audio is ready
-  if (audio.readyState < 2) {
-    console.log('Audio not ready yet');
-    return;
-  }  
- 
   audio.currentTime = 0; // rewind to the start
-  audio.play().catch(error => {
-    console.log('Play failed:', error);
-  });
+  audio.play().catch(() => {});
   key.classList.add('playing');
 }
 
@@ -85,11 +104,12 @@ function removeTransition(e) {
   this.classList.remove('playing');
 }
 
-const keys = document.querySelectorAll('.key');
+const keys = document.querySelectorAll('.key'); //  finds ALL elements with class "key" (all 9 drum buttons) and returns a NodeList (like an array) of all those elements
+// const keys stores this list in a variable
 keys.forEach(key => key.addEventListener('transitionend', removeTransition));
 
 keys.forEach(key => { // make keys clickable
-  key.addEventListener('click', () => {
+  key.addEventListener('click', () => { // Adds a click event listener to each button. When someone clicks a button, the arrow function () => { ... } runs
     const keyCode = key.getAttribute('data-key'); // Gets e.g. "65"
     playSound({ keyCode: keyCode }); // Creates { keyCode: "65" }
   });
