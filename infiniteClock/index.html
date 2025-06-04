@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>JS + CSS Clock</title>
+  <link rel="icon" href="https://fav.farm/🔥" />
+</head>
+<body>
+
+  <video autoplay loop muted class="background-video">
+    <source src="background.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+
+    <div class="clock">
+      <div class="clock-face">
+        <div class="hand hour-hand" id="hour-hand"></div>
+        <div class="hand min-hand" id="min-hand"></div>
+        <div class="hand second-hand" id="second-hand"></div>
+      </div>
+    </div>
+
+
+  <style>
+    html {
+      background-size: cover;
+      font-family: 'helvetica neue';
+      text-align: center;
+      font-size: 10px;
+    }
+
+    body {
+      margin: 0;
+      font-size: 2rem;
+      display: flex;
+      flex: 1;
+      min-height: 100vh;
+      align-items: center;
+      position: relative; /* Ensure positioning for the video */
+      overflow: hidden; /* Prevent scrollbars */
+    }
+
+    .background-video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover; /* Cover the entire background */
+      z-index: -1; /* Send the video behind other content */
+    }
+
+    .clock {
+      width: 30rem;
+      height: 30rem;
+      border: 0.1px solid rgba(255, 255, 255, 0.7);
+      border-radius: 50%;
+      margin: 50px auto;
+      position: relative;
+      padding: 1.8rem;
+      box-shadow:
+        0 0 0 4px rgba(0,0,0,0.1),
+        inset 0 0 0 3px #EFEFEF 0.3,
+        inset 0 0 10px black,
+        0 0 10px rgba(0,0,0,0.2);
+    }
+
+    .clock-face {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transform: translateY(-3px); /* account for the height of the clock hands */
+    }
+
+    .hand {
+      width: 50%;
+      height: 0.5px;
+      background: rgb(255, 255, 255, 0.7);
+      position: absolute;
+      transform-origin: 100%;
+      transform: rotate(90deg);
+      transition: cubic-bezier();
+    }
+
+    .hour-hand {
+      width: 30%; /* Shorter for the hour hand */
+      transform-origin: 100%;
+      top: 50%;
+      left: 20%;
+    }
+    
+    .min-hand {
+      width: 40%; /* Medium length for the minute hand */
+      transform-origin: 100%;
+      top: 50%;
+      left: 10%;
+    }
+    
+    .second-hand {
+      width: 50%; /* Longest for the second hand */
+      transform-origin: 100%;
+      top: 50%;
+      left: 0%;
+    }
+
+  </style>
+
+  <script>
+
+    const secondHand = document.querySelector('.second-hand');
+    const minsHand = document.querySelector('.min-hand');
+    const hourHand = document.querySelector('.hour-hand');
+
+    function setDate() {
+      const now = new Date();
+
+      const seconds = now.getSeconds();
+      const secondsDegrees = ((seconds / 60) * 360) + 90;
+      secondHand.style.transform = `rotate(${secondsDegrees}deg)`;
+      
+      const mins = now.getMinutes();
+      const minsDegrees = ((mins / 60) * 360) + 90; // Add 90 to offset the initial position
+      minsHand.style.transform = `rotate(${minsDegrees}deg)`;
+
+      const hour = now.getHours();
+      const hourDegrees = ((hour / 12) * 360) + ((mins / 60) * 30) + 90; // Adjust for minutes to make the hour hand move smoothly
+      hourHand.style.transform = `rotate(${hourDegrees}deg)`;
+    }
+
+    setInterval(setDate, 1000); // Update every second
+    setDate(); // Initial call to set the position immediately
+
+  </script>
+</body>
+</html>
