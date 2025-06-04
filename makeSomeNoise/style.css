@@ -1,0 +1,75 @@
+html {
+  font-size: 10px;
+  margin: 0;
+  padding: 0;
+}
+
+body,html {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+}
+
+.background-container {
+  background: url('./background.jpg') left bottom;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: scroll; /* This allows the background to scroll */
+  min-height: 200vh; /* Make it tall enough to scroll - adjust as needed */
+  width: 100%;
+}
+
+.keys {
+  display: flex;
+  height: 100vh;
+  align-items: center;
+  justify-content: center;
+  margin-top: 4.75rem;
+  position: fixed;
+  z-index: 100; /* Ensures keys stay on top of other elements */
+  pointer-events: none; /* Allow clicks to pass through */
+}
+
+.key {
+  border: .35rem solid rgb(255, 255, 255);
+  border-radius: 35rem;
+  margin: 3rem;
+  font-size: 1.2rem;
+  padding: 1.7rem;
+  transition: all .07s ease;
+  width: 6.2rem;
+  text-align: center;
+  color: white;
+  font-weight: 600;
+  background: rgba(0,0,0,0);
+  text-shadow: 0 0 .8rem rgb(129, 129, 129);
+  pointer-events: auto;
+  cursor: pointer;
+  user-select: none;
+}
+
+.playing {
+  transform: scale(1.1);
+  border-color: #ddff00;
+  box-shadow: 0 0 1rem #ddff00;
+  color: #ddff00;
+}
+
+.playing .sound {
+  color: #ddff00;
+}
+
+kbd {
+  display: block;
+  font-size: 4rem;
+}
+
+.sound {
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  letter-spacing: .1rem;
+  color: #ffffff;
+  font-weight: 500;
+}
+
+
